@@ -58,7 +58,7 @@ const ListingDetail = () => {
       try {
         const product = await supabase.from('products').select("*").eq("id", id)
         const userid = (await supabase.auth.getUser()).data.user.id;
-        const user = await supabase.from('profiles').select("*").eq("id", userid);
+        const user = await supabase.from('profiles').select("*").eq("id", product.data[0].seller_id);
 
         if (!product.data) {
           return;

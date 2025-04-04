@@ -22,7 +22,7 @@ const iconMap: Record<string, React.ReactNode> = {
 const CategoryCard = ({ title, icon, url }: CategoryProps) => {
   return (
     <Link
-      to={url}
+      to={"#"}
       className="flex flex-col items-center justify-center rounded-lg border border-border bg-card p-4 text-card-foreground shadow-sm transition-colors hover:bg-accent/10"
     >
       <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full bg-primary/10 text-primary">

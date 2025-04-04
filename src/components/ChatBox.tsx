@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { MessageSquare, Send, User } from 'lucide-react';
@@ -20,7 +20,8 @@ interface ChatBoxProps {
 const ChatBox = ({ recipientName = 'Seller', productTitle = 'Item' }: ChatBoxProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messageInput, setMessageInput] = useState('');
-  const [messages] = useState<Message[]>([
+  const chatBox = useRef<HTMLDivElement>();
+  const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
       sender: 'user',
@@ -53,7 +54,24 @@ const ChatBox = ({ recipientName = 'Seller', productTitle = 'Item' }: ChatBoxPro
     if (messageInput.trim()) {
       // This would normally send the message to the backend
       console.log('Message sent:', messageInput);
-      
+      console.log(messages)
+      // setMessages(prev => ({
+      //   ...prev,
+      //   id: 5,
+      //   sender: 'user',
+      //   content: messageInput,
+      //   timestamp: new Date()
+      // }))
+      messages.push({
+        id: (parseInt(messages[messages.length - 1].id) + 1).toString(),
+        sender: 'user',
+        content: messageInput,
+        timestamp: new Date()
+      })
+      if (chatBox.current) {
+
+        chatBox.current?.scrollIntoView({ behavior: 'smooth' });
+      }
       // Clear input after sending
       setMessageInput('');
     }
@@ -69,8 +87,8 @@ const ChatBox = ({ recipientName = 'Seller', productTitle = 'Item' }: ChatBoxPro
   return (
     <div className="fixed bottom-4 right-4 z-50">
       {/* Chat Button */}
-      <Button 
-        onClick={toggleChat} 
+      <Button
+        onClick={toggleChat}
         className="rounded-full h-12 w-12 p-0 shadow-lg"
       >
         <MessageSquare className="h-5 w-5" />
@@ -90,9 +108,9 @@ const ChatBox = ({ recipientName = 'Seller', productTitle = 'Item' }: ChatBoxPro
                 <p className="text-xs opacity-90">{productTitle}</p>
               </div>
             </div>
-            <Button 
-              variant="ghost" 
-              size="sm" 
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={toggleChat}
               className="text-primary-foreground h-8 w-8 p-0"
             >
@@ -101,30 +119,32 @@ const ChatBox = ({ recipientName = 'Seller', productTitle = 'Item' }: ChatBoxPro
           </div>
 
           {/* Chat Messages */}
-          <ScrollArea className="h-80 p-3">
+          <ScrollArea className="h-80 p-3" >
             <div className="space-y-4">
               {messages.map((message) => (
-                <div 
-                  key={message.id} 
+                <div
+                  key={message.id}
                   className={`flex ${message.sender === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
-                  <div 
-                    className={`max-w-[80%] px-3 py-2 rounded-lg ${
-                      message.sender === 'user' 
-                        ? 'bg-primary text-primary-foreground' 
-                        : 'bg-muted'
-                    }`}
+                  <div
+                    className={`max-w-[80%] px-3 py-2 rounded-lg ${message.sender === 'user'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted'
+                      }`}
                   >
                     <p className="text-sm">{message.content}</p>
                     <p className="text-xs opacity-70 mt-1">
-                      {new Date(message.timestamp).toLocaleTimeString([], { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
+                      {new Date(message.timestamp).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit'
                       })}
                     </p>
                   </div>
                 </div>
               ))}
+            </div>
+            <div ref={chatBox} className='mb-24'>
+
             </div>
           </ScrollArea>
 
@@ -138,8 +158,8 @@ const ChatBox = ({ recipientName = 'Seller', productTitle = 'Item' }: ChatBoxPro
                 placeholder="Type a message..."
                 className="min-h-[40px] resize-none"
               />
-              <Button 
-                onClick={handleSendMessage} 
+              <Button
+                onClick={handleSendMessage}
                 size="icon"
                 disabled={!messageInput.trim()}
               >

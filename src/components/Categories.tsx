@@ -5,7 +5,7 @@ const categories = [
   { title: 'Books', icon: 'books', url: '/category/books' },
   { title: 'Calculators', icon: 'calculators', url: '/category/calculators' },
   { title: 'Laptops', icon: 'laptops', url: '/category/laptops' },
-  { title: 'Clothing', icon: 'clothing', url: '/category/clothing' },
+  // { title: 'Clothing', icon: 'clothing', url: '/category/clothing' },
   { title: 'Transport', icon: 'transport', url: '/category/transport' },
 ];
 

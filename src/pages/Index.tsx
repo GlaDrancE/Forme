@@ -56,9 +56,9 @@ const Index = () => {
                   <Link to="/create-listing">Create a Listing</Link>
                 </Button>
               )}
-              <Button size="lg" variant="outline" className="border-white/20 bg-white/10" asChild>
+              {/* <Button size="lg" variant="outline" className="border-white/20 bg-white/10" asChild>
                 <Link to="/explore">Browse Listings</Link>
-              </Button>
+              </Button> */}
             </div>
           </div>
         </div>
